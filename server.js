@@ -11,22 +11,13 @@ app.use(express.json());
 dotenv.config();
 connectDB();
 
+app.get('/', (req, res) => {
+  res.send('api is running successfully');
+});
+
 app.use('/api/auth', userRoutes);
 app.use('/api/employee', employeeRoutes);
 
-// -----------------Deployment------------
-
-const __dirname1 = path.resolve();
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname1, '../frontend/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname1, 'frontend', 'build', 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => {
-    res.send('api is running successfully');
-  });
-}
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
